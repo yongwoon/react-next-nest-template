@@ -10,11 +10,9 @@ RUN apk update && \
   apk add git bash curl musl musl-utils musl-locales tzdata && \
   npm i -g @nestjs/cli
 
+RUN mkdir -p $APP_ROOT
+COPY . $APP_ROOT
+
 WORKDIR $APP_ROOT
 
-# COPY ./package.json $APP_ROOT
-# COPY ./package-lock.json $APP_ROOT
-
-# RUN yarn install
-
-COPY . $APP_ROOT
+RUN npm install

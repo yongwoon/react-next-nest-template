@@ -8,6 +8,12 @@
 docker network create dev_next_nest_template_network
 ```
 
+- Build Image
+
+```bash
+docker-compose build --no-cache
+```
+
 ## Create Nestjs Project (Backend)
 
 - Create Project

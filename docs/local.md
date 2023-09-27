@@ -62,3 +62,4 @@ CREATE DATABASE uber_eats_test ENCODING UTF_8;
 ## その他
 
 - [backend base url](http://localhost:3000)
+- [frontend base url](http://localhost:8080)

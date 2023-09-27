@@ -39,8 +39,20 @@ cp .env.sample .env.test
 - Start Servcer (backend)
 
 ```bash
+# Access to container
+docker-compose exec backend bash
+
 npm run start:dev
 npm run start:debug
+```
+
+- Start Server (Frontend)
+
+```bash
+# Access to container
+docker-compose exec frontend bash
+
+npm run dev
 ```
 
 ## Database

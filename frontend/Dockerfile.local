@@ -16,4 +16,4 @@ WORKDIR $APP_ROOT
 # RUN yarn install
 COPY . $APP_ROOT
 
-CMD [ "npm", "run", "dev" ]
+# CMD [ "npm", "run", "dev" ]

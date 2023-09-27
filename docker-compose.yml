@@ -3,11 +3,13 @@ services:
   frontend:
     container_name: dev_next_nest_template_frontend
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile.local
+      context: ./frontend
+      dockerfile: ./Dockerfile.local
+    # command: npm run dev
+    stdin_open: true
     tty: true
     volumes:
-      - ./:/var/www
+      - ./frontend:/var/www
     ports:
       - "8000:8000"
       - "5555:5555"
@@ -15,10 +17,10 @@ services:
       - dev_next_nest_template_network
 
   # storybook:
-  #   container_name: dev_next_nest_template_storybook
+  #   container_name: dev_next_nest_sample_storybook
   #   build:
-  #     context: .
-  #     dockerfile: ./frontend/Dockerfile.local
+  #     context: ./frontend
+  #     dockerfile: ./Dockerfile.local
   #   command: yarn storybook
   #   tty: true
   #   volumes:
@@ -26,17 +28,19 @@ services:
   #   ports:
   #     - '6006:6006'
   #   networks:
-  #     - dev_next_nest_template_network
+  #     - dev_next_nest_sample_network
 
   backend:
     container_name: dev_next_nest_template_backend
     build:
-      context: .
-      dockerfile: ./backend/Dockerfile.local
+      context: ./backend
+      dockerfile: ./Dockerfile.local
+    # command: npm run start:dev
+    stdin_open: true
     tty: true
     volumes:
-      - ./:/var/www
-      - dev_next_nest_template_backend_volume:/var/www/app/node_modules
+      - ./backend:/var/www
+      - dev_next_nest_sample_backend_volume:/var/www/node_modules
     ports:
       - "3000:3000"
     networks:

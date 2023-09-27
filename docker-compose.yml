@@ -1,18 +1,18 @@
 version: "3"
 services:
-  # frontend:
-  #   container_name: dev_next_nest_template_frontend
-  #   build:
-  #     context: .
-  #     dockerfile: /frontend/Dockerfile.local
-  #   tty: true
-  #   volumes:
-  #     - ./:/var/www
-  #   ports:
-  #     - "8000:8000"
-  #     - "5555:5555"
-  #   networks:
-  #     - dev_next_nest_template_network
+  frontend:
+    container_name: dev_next_nest_template_frontend
+    build:
+      context: .
+      dockerfile: /frontend/Dockerfile.local
+    tty: true
+    volumes:
+      - ./:/var/www
+    ports:
+      - "8000:8000"
+      - "5555:5555"
+    networks:
+      - dev_next_nest_template_network
 
   # storybook:
   #   container_name: dev_next_nest_template_storybook
@@ -53,10 +53,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - dev_lf_gpas_db_volume:/var/lib/mysql
+      - dev_next_nest_template_db_volume:/var/lib/mysql
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
-    networks:
-      - dev_lf_gpas_network
     security_opt:
       - seccomp:unconfined
     environment:
@@ -65,9 +63,13 @@ services:
       # MYSQL_PASSWORD: mysqluserpass
       # MYSQL_ROOT_PASSWORD: mysqlrootpass
       MYSQL_DATABASE: dev_next_nest_development
+    networks:
+      - dev_next_nest_template_network
+
 networks:
   dev_next_nest_template_network:
     external: true
+
 volumes:
   dev_next_nest_template_backend_volume:
   dev_next_nest_template_db_volume:

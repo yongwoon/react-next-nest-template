@@ -14,6 +14,7 @@ RUN npm install
 FROM node:18.18.0-alpine
 ENV HOST=0.0.0.0
 ENV APP_ROOT /var/www
+RUN mkdir -p $APP_ROOT
 RUN apk add --update vim
 WORKDIR $APP_ROOT
 COPY --from=builder $APP_ROOT $APP_ROOT

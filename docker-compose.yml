@@ -8,43 +8,60 @@ services:
     # command: npm run dev
     stdin_open: true
     tty: true
+    # environment:
+    #   NEXT_PUBLIC_EXTERNAL_GRAPHQL_ENDPOINT: "http://localhost:3000/graphql"
+    #   INTERNAL_GRAPHQL_ENDPOINT: "http://backend:3000/graphql"
+    depends_on:
+      backend:
+        condition: service_healthy
     volumes:
       - ./frontend:/var/www
     ports:
       - "8000:8000"
-      - "5555:5555"
     networks:
       - dev_next_nest_template_network
 
-  # storybook:
-  #   container_name: dev_next_nest_sample_storybook
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: ./Dockerfile.local
-  #   command: yarn storybook
-  #   tty: true
-  #   volumes:
-  #     - ./:/var/www
-  #   ports:
-  #     - '6006:6006'
-  #   networks:
-  #     - dev_next_nest_sample_network
+  storybook:
+    container_name: dev_next_nest_sample_storybook
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile.local
+    command: yarn storybook
+    tty: true
+    volumes:
+      - ./:/var/www
+    ports:
+      - "6006:6006"
+    networks:
+      - dev_next_nest_sample_network
 
   backend:
     container_name: dev_next_nest_template_backend
     build:
       context: ./backend
       dockerfile: ./Dockerfile.local
-    # command: npm run start:dev
+    # command: npm run start:local
     stdin_open: true
     tty: true
+    # environment:
+    #   DB_HOST: db
+    #   DB_PORT: 3306
+    #   DB_USERNAME: root
+    #   DB_PASSWORD:
+    #   DB_NAME: remedy_hr_development
+    depends_on:
+      - db
     volumes:
       - ./backend:/var/www
-      - dev_next_nest_sample_backend_volume:/var/www/node_modules
     ports:
       - "3000:3000"
     networks:
       - dev_next_nest_template_network
+    healthcheck:
+      test: ["CMD", "curl", "http://backend:3000/graphql"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
 
   db:
     container_name: dev_next_nest_template_db
@@ -66,14 +83,12 @@ services:
       # MYSQL_USER: mysqlusername
       # MYSQL_PASSWORD: mysqluserpass
       # MYSQL_ROOT_PASSWORD: mysqlrootpass
-      MYSQL_DATABASE: dev_next_nest_development
+      MYSQL_DATABASE: remedy_hr_development
     networks:
       - dev_next_nest_template_network
 
 networks:
   dev_next_nest_template_network:
-    external: true
 
 volumes:
-  dev_next_nest_template_backend_volume:
   dev_next_nest_template_db_volume:

@@ -1,4 +1,3 @@
-version: "3"
 services:
   frontend:
     container_name: dev_next_nest_template_frontend

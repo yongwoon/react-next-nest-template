@@ -1,4 +1,4 @@
-FROM node:20.10.0-alpine
+FROM node:20.15.0-alpine
 
 ENV APP_ROOT /var/www
 
@@ -13,9 +13,9 @@ RUN apk update && \
 RUN mkdir -p $APP_ROOT
 WORKDIR $APP_ROOT
 
-# COPY ./package.json $APP_ROOT
-# COPY ./package-lock.json $APP_ROOT
-# RUN yarn install
+COPY ./package.json $APP_ROOT
+COPY ./package-lock.json $APP_ROOT
+RUN npm install
 
 COPY . $APP_ROOT
 
